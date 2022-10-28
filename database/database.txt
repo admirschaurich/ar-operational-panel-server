@@ -1,0 +1,66 @@
+ALTER TABLE sipp.a_core_regiao
+    ADD COLUMN setor_id_primario integer NOT NULL;
+
+
+CREATE TABLE sipp."a_core_regiao_turno_vaga"
+(
+    id serial NOT NULL,
+    id_regiao_primaria integer NOT NULL,
+    id_turno integer,
+    vagas integer,
+    PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE sipp."a-core-regiao-turno-vaga"
+    OWNER to sipp;
+
+
+=====Alteração dia 20/10/2022, para configurar as vagas por dia de semana=============
+
+CREATE TABLE sipp.a_core_dia_semana
+(
+    id integer NOT NULL,
+    descricao character varying(20) NOT NULL,
+    PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE sipp.a_core_dia_semana
+    OWNER to sipp;
+
+CREATE TABLE sipp.a_core_tipo_os
+(
+    id integer NOT NULL,
+    descricao character varying(20) NOT NULL,
+    ids_tipo_os character NOT NULL,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE sipp.a_core_tipo_os
+    OWNER to sipp;
+
+CREATE TABLE sipp.a_core_regiao_dia_semana_vaga
+(
+    id integer NOT NULL DEFAULT nextval('a_core_agenda_semana_id_seq'::regclass),
+    id_regiao_primaria integer NOT NULL,
+    id_dia_semana integer NOT NULL,
+    id_grupo_os integer NOT NULL,
+    vagas integer NOT NULL,
+    CONSTRAINT a_core_agenda_semana_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE sipp.a_core_regiao_dia_semana_vaga
+    OWNER to sipp;
+
+GRANT ALL ON TABLE sipp.a_core_regiao_dia_semana_vaga TO hubsoft;
+
+GRANT ALL ON TABLE sipp.a_core_regiao_dia_semana_vaga TO sipp;
+
+COMMENT ON COLUMN sipp.a_core_regiao_dia_semana_vaga.id_grupo_os
+    IS 'Relacionado com a tabela a_core_config, parametros ''PAINEL_B'' do grupo 1';
+=====================================================================================
