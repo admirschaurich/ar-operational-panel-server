@@ -86,23 +86,15 @@ exports.getOrdensServicoPainelSemModeloOS = async function(date){
 
 exports.getOrdensServicoPainelSemModeloOSHojeEAmanhaOLD = async function(date){
     //O postgres espera uma data no formato MM/DD/YYYY
-    //console.log(`Data de Hoje: ${date}`);
     const strDateToday = [(date.getMonth()+1).toString().padStart(2, '0'), //o getMonth tem indice 0, portanto, precisa incrementar +1 para obter o mês correto.
                             date.getDate().toString().padStart(2, '0'),
                             date.getFullYear()].join('/');
-    // console.log(`imprimindo date: ${date}` )
-    // console.log(`imprimindo getDate(): ${date.getTime()}` )
-    // console.log(`imprimindo getDate() +1: ${date.getTime() + 1}` )
-    // console.log(`imprimindo new Date(date.getTime()): ${new Date(date.getTime() + 1)}` )
     
     let tomorrowDate = new Date(date.getTime());
     tomorrowDate.setDate(date.getDate() + 1);
-    //console.log(`Imprimindo tomorrowDate: ${tomorrowDate}`);
     const strDateTomorrow = [(tomorrowDate.getMonth()+1).toString().padStart(2, '0'), //o getMonth tem indice 0, portanto, precisa incrementar +1 para obter o mês correto.
                                 tomorrowDate.getDate().toString().padStart(2, '0'),
                                 tomorrowDate.getFullYear()].join('/');
-
-    
 
     return database.query(
         `Select
